@@ -5,7 +5,7 @@ from rest_framework import generics
 from .models import User
 from .serializers import RegisterSerializer
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from .models import Profile
 from .serializers import ProfileSerializer
@@ -13,7 +13,7 @@ from .serializers import ProfileSerializer
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
-
+    permission_classes = [AllowAny]
 
 class ProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
@@ -46,4 +46,4 @@ class AdminUsersView(APIView):
                 'fitness_goal': profile.fitness_goal if profile else None,
                 'membership_plan': profile.membership_plan if profile else 'Free',
             })
-        return Response(data)
+        return Response(data)
