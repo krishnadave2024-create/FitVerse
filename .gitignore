@@ -1,0 +1,81 @@
+# =========================
+# Python / Django
+# =========================
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Django database
+*.sqlite3
+db.sqlite3
+
+# Django generated files
+media/
+staticfiles/
+
+# Python logs
+*.log
+
+
+# =========================
+# Environment / Secrets
+# =========================
+
+.env
+.env.*
+!.env.example
+
+
+# =========================
+# Node / React
+# =========================
+
+node_modules/
+dist/
+dist-ssr/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+
+# =========================
+# Frontend environment files
+# =========================
+
+frontend-v2/.env
+frontend-v2/.env.local
+frontend-v2/.env.*.local
+
+
+# =========================
+# IDE
+# =========================
+
+.vscode/
+!.vscode/extensions.json
+
+.idea/
+
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db
+
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

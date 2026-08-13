@@ -1,0 +1,43 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# FitVerse Backend – Production Requirements
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Django core
+Django==6.0.7
+asgiref==3.12.1
+
+# REST framework & JWT
+djangorestframework==3.17.1
+djangorestframework-simplejwt==5.5.1
+PyJWT==2.13.0
+
+# CORS
+django-cors-headers==4.9.0
+
+# Database
+psycopg2-binary==2.9.12
+dj-database-url==3.1.2
+
+# Static files (production serving)
+whitenoise==6.12.0
+
+# Production WSGI server
+gunicorn==26.0.0
+
+# ML / Data science
+scikit-learn==1.9.0
+joblib==1.5.3
+numpy==2.5.1
+pandas==3.0.5
+scipy==1.18.0
+
+# Utilities
+narwhals==2.24.0
+pillow==12.3.0
+reportlab==5.0.0
+python-dateutil==2.9.0.post0
+six==1.17.0
+threadpoolctl==3.6.0
+charset-normalizer==3.4.9
+sqlparse==0.5.5
+tzdata==2026.3

@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+:root {
+  /* LIGHT MODE */
+  --color-primary: #84cc16; /* Lime 500 */
+  --color-primary-hover: #65a30d; /* Lime 600 */
+  --color-primary-transparent: rgba(132, 204, 22, 0.15);
+  
+  --color-bg-base: #f8fafc; /* Slate 50 */
+  --color-bg-panel: #ffffff; /* White */
+  --color-bg-panel-hover: #f1f5f9; /* Slate 100 */
+  
+  --color-border: #e2e8f0; /* Slate 200 */
+  
+  --color-accent-orange: #ea580c; /* Orange 600 */
+  --color-accent-blue: #0284c7; /* Sky 600 */
+  --color-accent-red: #dc2626; /* Red 600 */
+  --color-accent-green: #16a34a; /* Green 600 */
+  
+  --color-text-main: #0f172a; /* Slate 900 */
+  --color-text-muted: #64748b; /* Slate 500 */
+  --color-text-inverse: #ffffff; /* White text on primary buttons */
+
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+}
+
+[data-theme='dark'] {
+  /* DARK MODE */
+  --color-primary: #a3e635; /* Lime 400 */
+  --color-primary-hover: #84cc16; /* Lime 500 */
+  --color-primary-transparent: rgba(163, 230, 53, 0.1);
+  
+  --color-bg-base: #0f172a; /* Slate 900 */
+  --color-bg-panel: #1e293b; /* Slate 800 */
+  --color-bg-panel-hover: #334155; /* Slate 700 */
+  
+  --color-border: #334155; /* Slate 700 */
+  
+  --color-accent-orange: #f97316; /* Orange 500 */
+  --color-accent-blue: #0ea5e9; /* Sky 500 */
+  --color-accent-red: #ef4444; /* Red 500 */
+  --color-accent-green: #22c55e; /* Green 500 */
+  
+  --color-text-main: #f8fafc; /* Slate 50 */
+  --color-text-muted: #94a3b8; /* Slate 400 */
+  --color-text-inverse: #0f172a; /* Dark text on primary buttons */
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-bg-base: var(--color-bg-base);
+  --color-bg-panel: var(--color-bg-panel);
+  --color-text-main: var(--color-text-main);
+  --color-text-muted: var(--color-text-muted);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--color-bg-base)] text-[var(--color-text-main)] font-body antialiased transition-colors duration-200;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-wide uppercase;
+  }
+}
+
+/* Custom Utilities for clean panel designs */
+@layer components {
+  .panel {
+    @apply bg-[var(--color-bg-panel)] rounded-xl border border-[var(--color-border)] shadow-sm;
+  }
+}
+
+/* Recharts overrides to disable animations and fit theme */
+.recharts-wrapper * {
+  transition: none !important;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--color-border);
+}
+
+.recharts-text {
+  fill: var(--color-text-muted) !important;
+  font-family: var(--font-body) !important;
+  font-size: 12px;
+}
+
+/* Custom Animations for Login Page */
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+[data-theme='light'] .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+}
+
+/* Dashboard Premium Animations */
+@keyframes flicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+.animate-flicker {
+  animation: flicker 1.5s infinite ease-in-out;
+}
+
+@keyframes progress-fill {
+  from { stroke-dasharray: 0 100; }
+}
+
+.animate-progress {
+  animation: progress-fill 1.5s ease-out forwards;
+}
