@@ -4,11 +4,11 @@ import { useStore } from '../store/StoreContext';
 import {
   Activity, Dumbbell, Utensils, Droplets, LineChart,
   Bot, Video, Mail, Lock,
-  Eye, EyeOff, ArrowRight, Loader2
+  Eye, EyeOff, ArrowRight, Loader2, Sparkles, ActivitySquare
 } from 'lucide-react';
 import api from '../services/api';
 
-// Custom CountUp Hook
+// Custom CountUp Hook — unchanged
 function useCountUp(end, duration = 2000) {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -29,6 +29,7 @@ function useCountUp(end, duration = 2000) {
 }
 
 export default function Login() {
+  // ── Auth logic – completely unchanged ──────────────────────────────────────
   const navigate = useNavigate();
   const router = useRouter();
   const { login } = useStore();
@@ -39,7 +40,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Stats
+  // Stats counters
   const usersCount = useCountUp(12, 2000);
   const workoutsCount = useCountUp(150, 2500);
   const satisfactionCount = useCountUp(98, 3000);
@@ -70,169 +71,342 @@ export default function Login() {
       setLoading(false);
     }
   };
+  // ── End of auth logic ───────────────────────────────────────────────────────
 
   const features = [
-    { icon: Dumbbell, text: 'Workout Tracking' },
-    { icon: Utensils, text: 'Nutrition Logger' },
-    { icon: Droplets, text: 'Water Reminder' },
-    { icon: LineChart, text: 'Analytics Dashboard' },
-    { icon: Bot, text: 'Weight Prediction' },
-    { icon: Video, text: 'Exercise Videos' }
+    { icon: Dumbbell,   text: 'Workout Tracking' },
+    { icon: Utensils,   text: 'Nutrition Logger' },
+    { icon: Droplets,   text: 'Water Reminder' },
+    { icon: LineChart,  text: 'Analytics Dashboard' },
+    { icon: Bot,        text: 'Weight Prediction' },
+    { icon: Video,      text: 'Exercise Videos' },
   ];
-
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[var(--color-bg-base)] text-[var(--color-text-main)] overflow-hidden relative font-body selection:bg-[var(--color-primary)] selection:text-white">
+    <div
+      className="min-h-screen w-full flex flex-col lg:flex-row overflow-x-hidden font-sans"
+      style={{ background: '#08111F', color: 'white' }}
+    >
 
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[var(--color-primary)]/20 blur-[120px] animate-blob mix-blend-screen"></div>
-        <div className="absolute top-[20%] right-[-10%] w-[35%] h-[35%] rounded-full bg-cyan-500/20 blur-[120px] animate-blob animation-delay-2000 mix-blend-screen"></div>
-        <div className="absolute bottom-[-20%] left-[20%] w-[50%] h-[50%] rounded-full bg-blue-600/15 blur-[120px] animate-blob animation-delay-4000 mix-blend-screen"></div>
-        <div className="absolute inset-0 bg-grid-pattern opacity-40"></div>
+      {/* ── ANIMATED BACKGROUND ─────────────────────────────────────────────── */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage: `url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=")`,
+          }}
+        />
+        {/* Glowing blobs — matching Landing exactly */}
+        <div
+          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[150px] animate-pulse"
+          style={{ background: 'rgba(163,255,18,0.08)' }}
+        />
+        <div
+          className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] rounded-full blur-[150px] animate-pulse"
+          style={{ background: 'rgba(124,58,237,0.12)', animationDelay: '1s' }}
+        />
+        <div
+          className="absolute bottom-[-10%] left-[20%] w-[400px] h-[400px] rounded-full blur-[150px] animate-pulse"
+          style={{ background: 'rgba(37,99,235,0.10)', animationDelay: '2s' }}
+        />
       </div>
 
-      {/* LEFT PANEL */}
-      <div className="w-full lg:w-[40%] flex flex-col justify-between p-8 md:p-12 z-10 relative border-b lg:border-b-0 lg:border-r border-[var(--color-border)]/50 bg-[var(--color-bg-base)]/40 backdrop-blur-3xl">
-
-        <div>
-          {/* Logo */}
-          <div className="flex items-center gap-3 text-[var(--color-primary)] mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
-            <Activity size={40} className="drop-shadow-[0_0_15px_rgba(132,204,22,0.4)]" />
-            <h1 className="text-4xl font-heading tracking-wider mt-1 text-[var(--color-text-main)]">FitVerse</h1>
+      {/* ── LEFT BRANDING PANEL (hidden on mobile) ─────────────────────────── */}
+      <div
+        className="hidden lg:flex lg:w-[45%] xl:w-[42%] flex-col justify-between p-10 xl:p-14 z-10 relative"
+        style={{ borderRight: '1px solid rgba(255,255,255,0.07)' }}
+      >
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <div
+            className="p-2 rounded-xl"
+            style={{
+              background: '#A3FF12',
+              color: '#08111F',
+              boxShadow: '0 0 18px rgba(163,255,18,0.4)',
+            }}
+          >
+            <ActivitySquare size={24} strokeWidth={2.5} />
           </div>
+          <span className="text-2xl font-bold tracking-tight">FITVERSE</span>
+        </div>
 
-          <div className="animate-in fade-in slide-in-from-left-8 duration-700 delay-150 fill-mode-both">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight">
-              Transform Your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-cyan-400">Fitness Journey</span>
-            </h2>
-            <p className="text-[var(--color-text-muted)] text-lg md:text-xl max-w-md leading-relaxed mb-10">
-              Track workouts, nutrition, hydration, Weight Prediction, progress analytics, exercise videos and premium plans — all in one platform.
-            </p>
-          </div>
+        {/* Hero text */}
+        <div className="flex-1 flex flex-col justify-center py-12">
+          
 
-          {/* Features Grid */}
-          <div className="grid grid-cols-2 gap-3 mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both max-w-lg">
+          <h2
+            className="font-black leading-[1.1] tracking-tight mb-6"
+            style={{ fontSize: 'clamp(2.5rem, 3.5vw, 4rem)' }}
+          >
+            Transform Your{' '}
+            <span
+              className="text-transparent bg-clip-text"
+              style={{
+                backgroundImage: 'linear-gradient(135deg, #A3FF12, #34d399)',
+              }}
+            >
+              Fitness Journey
+            </span>{' '}
+          </h2>
+
+          <p className="text-lg leading-relaxed mb-10 max-w-sm" style={{ color: '#94A3B8' }}>
+            Track workouts, nutrition, hydration, and more — all in one premium platform.
+          </p>
+
+          {/* Feature grid */}
+          <div className="grid grid-cols-2 gap-3 max-w-sm">
             {features.map((feature, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-3 p-3 rounded-xl bg-[var(--color-bg-panel)]/40 border border-[var(--color-border)]/50 backdrop-blur-md shadow-sm hover:-translate-y-1 hover:shadow-md hover:bg-[var(--color-bg-panel-hover)]/60 hover:border-[var(--color-primary)]/30 transition-all duration-300 group cursor-default"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 cursor-default group"
+                style={{
+                  background: '#111C2E',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'rgba(163,255,18,0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
               >
-                <div className="p-2 rounded-lg bg-[var(--color-bg-base)] text-[var(--color-text-muted)] group-hover:text-[var(--color-primary)] group-hover:bg-[var(--color-primary)]/10 transition-colors">
-                  <feature.icon size={18} />
+                <div
+                  className="p-1.5 rounded-lg flex items-center justify-center"
+                  style={{ background: 'rgba(163,255,18,0.1)', color: '#A3FF12' }}
+                >
+                  <feature.icon size={16} />
                 </div>
-                <span className="text-sm font-medium text-[var(--color-text-main)]">{feature.text}</span>
+                <span className="text-sm font-medium" style={{ color: '#E2E8F0' }}>
+                  {feature.text}
+                </span>
               </div>
             ))}
           </div>
         </div>
 
-
       </div>
 
-      {/* RIGHT PANEL */}
-      <div className="w-full lg:w-[60%] flex items-center justify-center p-8 md:p-12 z-10 relative">
-        <div className="w-full max-w-[450px] animate-in fade-in zoom-in-95 duration-700 delay-200 fill-mode-both">
+      {/* ── RIGHT FORM PANEL ────────────────────────────────────────────────── */}
+      <div className="flex-1 flex flex-col items-center justify-center z-10 relative px-4 py-10 sm:px-8 lg:px-10">
 
-          <div className="bg-[var(--color-bg-panel)]/60 backdrop-blur-2xl border border-[var(--color-border)]/60 rounded-[28px] shadow-2xl overflow-hidden relative">
-            {/* Top highlight line */}
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--color-primary)]/50 to-transparent"></div>
+        {/* Mobile-only logo */}
+        <div className="flex lg:hidden items-center gap-3 mb-10 self-start">
+          <div
+            className="p-2 rounded-xl"
+            style={{
+              background: '#A3FF12',
+              color: '#08111F',
+              boxShadow: '0 0 15px rgba(163,255,18,0.4)',
+            }}
+          >
+            <ActivitySquare size={22} strokeWidth={2.5} />
+          </div>
+          <span className="text-xl font-bold tracking-tight">FITVERSE</span>
+        </div>
 
-            <div className="p-8 md:p-10">
-              <h2 className="text-3xl font-bold mb-2 tracking-tight">Welcome Back 👋</h2>
-              <p className="text-[var(--color-text-muted)] mb-8 font-medium">Sign in to continue your fitness journey.</p>
+        {/* Card */}
+        <div
+          className="w-full animate-in fade-in zoom-in-95 duration-500"
+          style={{ maxWidth: '460px' }}
+        >
+          <div
+            className="relative overflow-hidden rounded-3xl"
+            style={{
+              background: '#111C2E',
+              border: '1px solid rgba(255,255,255,0.08)',
+              boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(163,255,18,0.05)',
+            }}
+          >
+            {/* Top green accent line */}
+            <div
+              className="absolute top-0 left-0 right-0 h-px"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(163,255,18,0.6), transparent)',
+              }}
+            />
+
+            <div className="p-7 sm:p-9">
+              {/* Heading */}
+              <div className="mb-7">
+                <h1 className="text-3xl font-black tracking-tight mb-1.5">
+                  Welcome Back 👋
+                </h1>
+                <p style={{ color: '#94A3B8' }} className="font-medium">
+                  Sign in to continue your fitness journey.
+                </p>
+              </div>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
-                {/* Custom Email Input */}
-                <div className="group relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-[var(--color-text-muted)] group-focus-within:text-[var(--color-primary)] transition-colors">
-                    <Mail size={20} />
-                  </div>
-                  <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={loading}
-                    className="w-full bg-[var(--color-bg-base)]/50 border border-[var(--color-border)] text-[var(--color-text-main)] text-base rounded-xl px-4 py-3.5 pl-12 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:bg-[var(--color-bg-base)] transition-all peer placeholder-transparent"
-                    placeholder="Email Address"
-                  />
+                {/* Email field */}
+                <div className="flex flex-col gap-1.5">
                   <label
-                    htmlFor="email"
-                    className="absolute left-12 -top-2.5 bg-[var(--color-bg-panel)] px-1 text-sm text-[var(--color-text-muted)] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-[var(--color-text-muted)]/70 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-[var(--color-primary)] cursor-text"
+                    htmlFor="login-email"
+                    className="text-sm font-semibold"
+                    style={{ color: '#94A3B8' }}
                   >
                     Email Address
                   </label>
+                  <div className="relative">
+                    <div
+                      className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors"
+                      style={{ color: '#475569' }}
+                    >
+                      <Mail size={18} />
+                    </div>
+                    <input
+                      id="login-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      disabled={loading}
+                      placeholder="you@example.com"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{
+                        background: 'rgba(255,255,255,0.04)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: 'white',
+                        outline: 'none',
+                      }}
+                      onFocus={e => {
+                        e.target.style.borderColor = '#A3FF12';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(163,255,18,0.12)';
+                        e.target.style.background = 'rgba(163,255,18,0.04)';
+                      }}
+                      onBlur={e => {
+                        e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                        e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255,255,255,0.04)';
+                      }}
+                    />
+                  </div>
                 </div>
 
-                {/* Custom Password Input */}
-                <div className="group relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-[var(--color-text-muted)] group-focus-within:text-[var(--color-primary)] transition-colors">
-                    <Lock size={20} />
-                  </div>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    disabled={loading}
-                    className="w-full bg-[var(--color-bg-base)]/50 border border-[var(--color-border)] text-[var(--color-text-main)] text-base rounded-xl px-4 py-3.5 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:bg-[var(--color-bg-base)] transition-all peer placeholder-transparent"
-                    placeholder="Password"
-                  />
+                {/* Password field */}
+                <div className="flex flex-col gap-1.5">
                   <label
-                    htmlFor="password"
-                    className="absolute left-12 -top-2.5 bg-[var(--color-bg-panel)] px-1 text-sm text-[var(--color-text-muted)] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-[var(--color-text-muted)]/70 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-[var(--color-primary)] cursor-text"
+                    htmlFor="login-password"
+                    className="text-sm font-semibold"
+                    style={{ color: '#94A3B8' }}
                   >
                     Password
                   </label>
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-4 text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] transition-colors"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
+                  <div className="relative">
+                    <div
+                      className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none"
+                      style={{ color: '#475569' }}
+                    >
+                      <Lock size={18} />
+                    </div>
+                    <input
+                      id="login-password"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      disabled={loading}
+                      placeholder="••••••••"
+                      className="w-full pl-11 pr-12 py-3 rounded-xl text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{
+                        background: 'rgba(255,255,255,0.04)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: 'white',
+                        outline: 'none',
+                      }}
+                      onFocus={e => {
+                        e.target.style.borderColor = '#A3FF12';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(163,255,18,0.12)';
+                        e.target.style.background = 'rgba(163,255,18,0.04)';
+                      }}
+                      onBlur={e => {
+                        e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                        e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255,255,255,0.04)';
+                      }}
+                    />
+                    <button
+                      type="button"
+                      tabIndex={-1}
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 flex items-center pr-4 transition-colors duration-200"
+                      style={{ color: '#475569' }}
+                      onMouseEnter={e => e.currentTarget.style.color = '#A3FF12'}
+                      onMouseLeave={e => e.currentTarget.style.color = '#475569'}
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </div>
 
+                {/* Error message */}
                 {error && (
-                  <div className="text-red-500 text-sm font-medium animate-in slide-in-from-top-1 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+                  <div
+                    className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium animate-in slide-in-from-top-1 duration-200"
+                    style={{
+                      background: 'rgba(239,68,68,0.1)',
+                      border: '1px solid rgba(239,68,68,0.25)',
+                      color: '#FCA5A5',
+                    }}
+                    role="alert"
+                  >
                     {error}
                   </div>
                 )}
 
+                {/* Submit button */}
                 <button
                   type="submit"
+                  id="login-submit"
                   disabled={loading}
-                  className="group relative w-full mt-2 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-hover)] text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-[var(--color-primary)]/20 hover:shadow-[var(--color-primary)]/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden flex items-center justify-center gap-2"
+                  className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-bold text-base mt-1 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed group"
+                  style={{
+                    background: '#A3FF12',
+                    color: '#08111F',
+                    boxShadow: '0 0 25px rgba(163,255,18,0.25)',
+                  }}
+                  onMouseEnter={e => {
+                    if (!loading) {
+                      e.currentTarget.style.transform = 'translateY(-1px) scale(1.01)';
+                      e.currentTarget.style.boxShadow = '0 0 35px rgba(163,255,18,0.45)';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 0 25px rgba(163,255,18,0.25)';
+                  }}
                 >
                   {loading ? (
                     <Loader2 size={20} className="animate-spin" />
                   ) : (
                     <>
                       <span>Sign In</span>
-                      <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" />
                     </>
                   )}
                 </button>
               </form>
 
-              {/* Register Link */}
-              <div className="mt-8 text-center">
-                <p className="text-[var(--color-text-muted)]">
+              {/* Register link */}
+              <div className="mt-7 text-center">
+                <p className="text-sm" style={{ color: '#64748B' }}>
                   Don't have an account?{' '}
-                  <Link to="/register" className="text-[var(--color-text-main)] font-semibold hover:text-[var(--color-primary)] transition-colors group inline-flex items-center gap-1">
+                  <Link
+                    to="/register"
+                    className="font-bold transition-colors duration-200 inline-flex items-center gap-1 group"
+                    style={{ color: '#A3FF12' }}
+                  >
                     Create Free Account
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform duration-200" />
                   </Link>
                 </p>
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
 
